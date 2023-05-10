@@ -34,7 +34,12 @@
         <el-checkbox v-model="isRemPwd" label="记住密码" size="large" />
         <el-link type="primary">忘记密码</el-link>
       </div>
-      <el-button class="login-btn" type="primary" size="large" @click="handleLoginBtnClick">
+      <el-button
+        class="login-btn"
+        type="primary"
+        size="large"
+        @click="handleLoginBtnClick"
+      >
         立即登录
       </el-button>
     </div>
@@ -54,7 +59,7 @@ const phoneRef = ref<InstanceType<typeof PanelPhone>>()
 
 function handleLoginBtnClick() {
   if (activeTabName.value === 'account') {
-    console.log('用户在进行手机登录')
+    accountRef.value.loginAction()
   } else {
     console.log('用户在进行手机登录')
   }
