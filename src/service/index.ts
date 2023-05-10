@@ -1,5 +1,5 @@
 import MYRequest from './request'
-import { BASE_URL, TIME_OUT } from './request/config'
+import { BASE_URL, TIME_OUT } from './config'
 
 const myRequest = new MYRequest({
   baseURL: BASE_URL,
