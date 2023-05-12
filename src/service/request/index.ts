@@ -8,13 +8,14 @@ import type { MYRequestInterceptors, MYRequestConfig } from './type'
 class MYRequest {
   instance: AxiosInstance
   interceptors?: MYRequestInterceptors
-  loading: any
-  showLoading?: boolean
+  // loading: any
+  // showLoading?: boolean
 
   constructor(config: MYRequestConfig) {
     this.instance = axios.create(config)
     //是否使用loading
-    this.showLoading = config.showLoading ?? false
+    // this.showLoading = config.showLoading ?? false
+
     //每个实例独有的config配置拦截器
     this.interceptors = config.interceptors
     this.instance.interceptors.request.use(
@@ -47,39 +48,33 @@ class MYRequest {
     this.instance.interceptors.response.use(
       (res) => {
         //关闭loading
-        this.loading?.close()
-
-        const data = res.data
-        //在data中判断
-        if (data.returnCode === '-1001') {
-          console.log('data中判断请求失败')
-        }
+        // this.loading?.close()
         return res.data
       },
       (err) => {
         //关闭loading
-        this.loading?.close()
+        // this.loading?.close()
 
         //使用HttpErrorCode
-        if (err.response.status === 404) {
-          console.log('404错误')
-        }
+        // if (err.response.status === 404) {
+        //   console.log('404错误')
+        // }
         return err
       }
     )
   }
 
   request<T>(config: MYRequestConfig): Promise<T> {
-    return new Promise((resolve, reject) => {
-      //为request请求使用单独的请求拦截器
-      if (config.interceptors?.requestInterceptor) {
-        config = config.interceptors.requestInterceptor(config)
-      }
+    //为request请求使用单独的请求拦截器
+    if (config.interceptors?.requestInterceptor) {
+      config = config.interceptors.requestInterceptor(config)
+    }
 
+    return new Promise((resolve, reject) => {
       //通过request请求中的配置项配置loading
-      if (config.showLoading === true) {
-        this.showLoading = config.showLoading
-      }
+      // if (config.showLoading === true) {
+      //   this.showLoading = config.showLoading
+      // }
 
       this.instance
         .request<any, T>(config)
@@ -90,7 +85,7 @@ class MYRequest {
           }
 
           //设置loading为默认
-          this.showLoading = false
+          // this.showLoading = false
           resolve(res)
         })
         .catch((err) => {
