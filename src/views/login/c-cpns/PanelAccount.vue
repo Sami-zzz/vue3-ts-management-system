@@ -22,6 +22,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
+import { accountLoginRequest } from '@/service/login/login'
 import type { FormRules, ElForm } from 'element-plus'
 import { ElMessage } from 'element-plus'
 
@@ -34,8 +35,8 @@ const accountRules: FormRules = {
   name: [
     { required: true, message: '请输入帐号', trigger: 'blur' },
     {
-      pattern: /^[a-z0-9]{6,20}$/,
-      message: '必须是6~20数字或字母组成',
+      pattern: /^[a-z0-9]{3,20}$/,
+      message: '必须是3~20数字或字母组成',
       trigger: 'blur'
     }
   ],
@@ -52,9 +53,11 @@ const accountRules: FormRules = {
 const formRef = ref<InstanceType<typeof ElForm>>()
 
 const loginAction = () => {
-  formRef.value.validate((valid) => {
+  formRef.value?.validate((valid: boolean) => {
     if (valid) {
-      console.log('过验证')
+      const name = account.name
+      const password = account.password
+      accountLoginRequest({ name, password })
     } else {
       ElMessage.error('请输入正确的账号和密码！')
     }

@@ -59,7 +59,7 @@ const phoneRef = ref<InstanceType<typeof PanelPhone>>()
 
 function handleLoginBtnClick() {
   if (activeTabName.value === 'account') {
-    accountRef.value.loginAction()
+    accountRef.value?.loginAction()
   } else {
     console.log('用户在进行手机登录')
   }
