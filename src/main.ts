@@ -23,7 +23,6 @@ if (import.meta.env.MODE === 'development') {
 }
 
 const app = createApp(App)
-
 app.use(router)
 app.use(pinia)
 // app.use(ElementPlus)

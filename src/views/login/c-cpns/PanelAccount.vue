@@ -22,11 +22,12 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { accountLoginRequest } from '@/service/login/login'
 import type { FormRules, ElForm } from 'element-plus'
 import { ElMessage } from 'element-plus'
+import useLoginStore from '@/store/login/login'
+import type { IAccount } from '@/types'
 
-const account = reactive({
+const account = reactive<IAccount>({
   name: '',
   password: ''
 })
@@ -50,6 +51,7 @@ const accountRules: FormRules = {
   ]
 }
 
+const loginStore = useLoginStore()
 const formRef = ref<InstanceType<typeof ElForm>>()
 
 const loginAction = () => {
@@ -57,7 +59,7 @@ const loginAction = () => {
     if (valid) {
       const name = account.name
       const password = account.password
-      accountLoginRequest({ name, password })
+      loginStore.accountLoginAction({ name, password })
     } else {
       ElMessage.error('请输入正确的账号和密码！')
     }

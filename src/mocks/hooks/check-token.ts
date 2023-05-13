@@ -1,4 +1,4 @@
-import localCache from '@/utils/localCache'
+import { localCache } from '@/utils/cache'
 export function checkToken(res: any, ctx: any) {
   const token = localCache.getCache('token')
   if (!token) {
