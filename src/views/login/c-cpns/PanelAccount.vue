@@ -26,10 +26,14 @@ import type { FormRules, ElForm } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import useLoginStore from '@/store/login/login'
 import type { IAccount } from '@/types'
+import { localCache } from '@/utils/cache'
+
+const CACHE_NAME = 'name'
+const CACHE_PASSWORD = 'password'
 
 const account = reactive<IAccount>({
-  name: '',
-  password: ''
+  name: localCache.getCache(CACHE_NAME) ?? '',
+  password: localCache.getCache(CACHE_PASSWORD) ?? ''
 })
 //表单校验规则
 const accountRules: FormRules = {
@@ -54,12 +58,20 @@ const accountRules: FormRules = {
 const loginStore = useLoginStore()
 const formRef = ref<InstanceType<typeof ElForm>>()
 
-const loginAction = () => {
+const loginAction = (isRemPwd: boolean) => {
   formRef.value?.validate((valid: boolean) => {
     if (valid) {
       const name = account.name
       const password = account.password
-      loginStore.accountLoginAction({ name, password })
+      loginStore.accountLoginAction({ name, password }).then(() => {
+        if (isRemPwd) {
+          localCache.setCache(CACHE_NAME, name)
+          localCache.setCache(CACHE_PASSWORD, password)
+        } else {
+          localCache.deleteCache(CACHE_NAME)
+          localCache.deleteCache(CACHE_PASSWORD)
+        }
+      })
     } else {
       ElMessage.error('请输入正确的账号和密码！')
     }
