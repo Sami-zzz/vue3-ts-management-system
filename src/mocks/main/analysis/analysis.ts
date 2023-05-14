@@ -17,23 +17,23 @@ enum MockDashboardAPI {
 
 export const analysisHandlers = [
   rest.get(MockDashboardAPI.goodsAmountList, (req, res, ctx) => {
-    checkToken(res, ctx)
+    checkToken(req, res, ctx)
     return res(ctx.status(200), ctx.json(goodsAmountList))
   }),
   rest.get(MockDashboardAPI.categoryGoodsCount, (req, res, ctx) => {
-    checkToken(res, ctx)
+    checkToken(req, res, ctx)
     return res(ctx.status(200), ctx.json(categoryGoodsCount))
   }),
   rest.get(MockDashboardAPI.categoryGoodsSale, (req, res, ctx) => {
-    checkToken(res, ctx)
+    checkToken(req, res, ctx)
     return res(ctx.status(200), ctx.json(categoryGoodsSale))
   }),
   rest.get(MockDashboardAPI.categoryGoodsFavor, (req, res, ctx) => {
-    checkToken(res, ctx)
+    checkToken(req, res, ctx)
     return res(ctx.status(200), ctx.json(categoryGoodsFavor))
   }),
   rest.get(MockDashboardAPI.addressGoodsSale, (req, res, ctx) => {
-    checkToken(res, ctx)
+    checkToken(req, res, ctx)
     return res(ctx.status(200), ctx.json(addressGoodsSale))
   })
 ]

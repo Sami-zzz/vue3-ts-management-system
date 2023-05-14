@@ -29,37 +29,37 @@ export const systemHandlers = [
     // offset: 0
     // realname: ''
     // size: 10
-    const result = checkToken(res, ctx)
+    const result = checkToken(req, res, ctx)
     if (result) return result
     return res(ctx.status(200), ctx.json(usersList))
   }),
   rest.post(MockSystemAPI.roleList, (req, res, ctx) => {
-    const result = checkToken(res, ctx)
+    const result = checkToken(req, res, ctx)
     if (result) return result
     return res(ctx.status(200), ctx.json(roleList))
   }),
   rest.post(MockSystemAPI.goodsList, (req, res, ctx) => {
-    const result = checkToken(res, ctx)
+    const result = checkToken(req, res, ctx)
     if (result) return result
     return res(ctx.status(200), ctx.json(goodsList))
   }),
   rest.post(MockSystemAPI.menuList, (req, res, ctx) => {
-    const result = checkToken(res, ctx)
+    const result = checkToken(req, res, ctx)
     if (result) return result
     return res(ctx.status(200), ctx.json(menuList))
   }),
   rest.post(MockSystemAPI.departmentList, (req, res, ctx) => {
-    const result = checkToken(res, ctx)
+    const result = checkToken(req, res, ctx)
     if (result) return result
     return res(ctx.status(200), ctx.json(departmentList))
   }),
   rest.post(MockSystemAPI.categoryList, (req, res, ctx) => {
-    const result = checkToken(res, ctx)
+    const result = checkToken(req, res, ctx)
     if (result) return result
     return res(ctx.status(200), ctx.json(categoryList))
   }),
   rest.post(MockSystemAPI.storyList, (req, res, ctx) => {
-    const result = checkToken(res, ctx)
+    const result = checkToken(req, res, ctx)
     if (result) return result
     return res(ctx.status(200), ctx.json(storyList))
   })

@@ -1,6 +1,5 @@
-import { localCache } from '@/utils/cache'
-export function checkToken(res: any, ctx: any) {
-  const token = localCache.getCache('token')
+export function checkToken(req: any, res: any, ctx: any) {
+  const token = req.headers.get('Authorization')
   if (!token) {
     return res(
       ctx.status(403),

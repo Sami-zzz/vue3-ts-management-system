@@ -28,7 +28,7 @@ export const loginHandlers: any = [
     }
   ),
   rest.get(`${MockLoginAPI.LoginUserInfo}/:id`, (req, res, ctx) => {
-    const result = checkToken(res, ctx)
+    const result = checkToken(req, res, ctx)
     if (result) return result
     const { id } = req.params
     const data = userInfoList[Number(id) - 1]
@@ -39,7 +39,7 @@ export const loginHandlers: any = [
     }
   }),
   rest.get(`${MockLoginAPI.UserMenus}/:id/menu`, (req, res, ctx) => {
-    const result = checkToken(res, ctx)
+    const result = checkToken(req, res, ctx)
     if (result) return result
     const { id } = req.params
     const data = userMenusList[Number(id) - 1]
