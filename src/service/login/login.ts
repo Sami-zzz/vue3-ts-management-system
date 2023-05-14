@@ -7,3 +7,9 @@ export function accountLoginRequest(account: IAccount) {
     data: account
   })
 }
+
+export function getUserInfoByIdRequest(id: number) {
+  return myRequest.get({
+    url: `users/${id}`
+  })
+}
