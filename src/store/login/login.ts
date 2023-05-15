@@ -18,8 +18,8 @@ interface ILoginState {
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
     token: localCache.getCache(LOGIN_TOKEN) ?? '',
-    userInfo: {},
-    userMenus: []
+    userInfo: localCache.getCache('userInfo') ?? '',
+    userMenus: localCache.getCache('userMenus') ?? ''
   }),
   actions: {
     async accountLoginAction(account: IAccount) {
@@ -29,15 +29,20 @@ const useLoginStore = defineStore('login', {
       this.token = loginResult.data.token
       localCache.setCache(LOGIN_TOKEN, this.token)
 
+      //获取用户详细信息
       const userInfoResult: any = await getUserInfoByIdRequest(id)
-      this.userInfo = userInfoResult.data
+      const userInfo = userInfoResult.data
+      this.userInfo = userInfo
 
-      console.log(this.userInfo.role.id)
+      //获取菜单
       const userMenusResult: any = await getUserMenusByRoleIdRequest(
         this.userInfo.role.id
       )
-      this.userMenus = userMenusResult.data
-      console.log(this.userMenus)
+      const userMenus = userMenusResult.data
+      this.userMenus = userMenus
+
+      localCache.setCache('userInfo', userInfo)
+      localCache.setCache('userMenus', userMenus)
 
       router.push('/main')
     }
