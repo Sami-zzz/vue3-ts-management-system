@@ -1,12 +1,12 @@
 <template>
   <div class="main">
     <el-container class="main-content">
-      <el-aside width="210px">
-        <MainMenu />
+      <el-aside :width="isFold ? '65px' : '210px'">
+        <MainMenu :is-fold="isFold" />
       </el-aside>
       <el-container>
         <el-header height="50px">
-          <MainHeader />
+          <MainHeader @fold-change="handleFoldChange" />
         </el-header>
         <el-main>Main</el-main>
       </el-container>
@@ -15,8 +15,14 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import MainHeader from '@/components/mainHeader/MainHeader.vue'
 import MainMenu from '@/components/mainMenu/MainMenu.vue'
+
+const isFold = ref(false)
+const handleFoldChange = (flag: boolean) => {
+  isFold.value = flag
+}
 </script>
 
 <style scoped lang="less">
