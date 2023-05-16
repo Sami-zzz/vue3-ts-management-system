@@ -7,13 +7,14 @@
     </div>
     <div class="content">
       <div class="breadcrumb">面包屑</div>
-      <div class="userInfo">个人信息</div>
+      <HeaderInfo />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import HeaderInfo from './c-cpns/HeaderInfo.vue'
 const emit = defineEmits(['foldChange'])
 const isFold = ref(false)
 const handleFoldIconClick = () => {
