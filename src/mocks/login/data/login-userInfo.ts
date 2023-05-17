@@ -37,7 +37,7 @@ export const userInfoList = [
       createAt: '2021-08-23T07:25:02.000Z',
       updateAt: '2021-08-23T07:25:09.000Z',
       role: {
-        id: 3,
+        id: 2,
         name: '运营',
         intro: '日常事务',
         createAt: '2021-01-05T11:47:42.000Z',

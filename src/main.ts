@@ -18,7 +18,6 @@ if (import.meta.env.MODE === 'development') {
     mocker.start({
       onUnhandledRequest: 'bypass'
     })
-    console.log('开启mock')
   })()
 }
 

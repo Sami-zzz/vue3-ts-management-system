@@ -20,7 +20,10 @@
           </template>
 
           <template v-for="subitem in item.children" :key="subitem.id">
-            <el-menu-item :index="subitem.id + ''">
+            <el-menu-item
+              :index="subitem.id + ''"
+              @click="handleItemClick(subitem)"
+            >
               {{ subitem.name }}
             </el-menu-item>
           </template>
@@ -31,6 +34,7 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router'
 import useLoginStore from '@/store/login/login'
 defineProps({
   isFold: {
@@ -41,6 +45,11 @@ defineProps({
 
 const loginStore = useLoginStore()
 const userMenus = loginStore.userMenus
+
+const handleItemClick = (item: any) => {
+  const url = item.url
+  router.push(url)
+}
 </script>
 
 <style lang="less" scoped>

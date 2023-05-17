@@ -18,10 +18,10 @@ export const loginHandlers: any = [
     MockLoginAPI.AccountLogin,
     async (req, res, ctx) => {
       const { name, password } = await req.json()
-      if (name === 'admin' || password === '123456') {
+      if (name === 'admin' && password === '123456') {
         return res(ctx.status(200), ctx.json(loginTokenList[0]))
-      } else if (name === 'user' || password === '123456') {
-        return res(ctx.status(200), ctx.json(loginTokenList[0]))
+      } else if (name === 'user' && password === '123456') {
+        return res(ctx.status(200), ctx.json(loginTokenList[1]))
       } else {
         return res(ctx.status(400))
       }
