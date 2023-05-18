@@ -18,9 +18,9 @@ interface ILoginState {
 
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
-    token: localCache.getCache(LOGIN_TOKEN) ?? '',
-    userInfo: localCache.getCache('userInfo') ?? '',
-    userMenus: localCache.getCache('userMenus') ?? ''
+    token: '',
+    userInfo: {},
+    userMenus: []
   }),
   actions: {
     async accountLoginAction(account: IAccount) {
@@ -52,6 +52,21 @@ const useLoginStore = defineStore('login', {
         router.addRoute('main', route)
       })
       router.push('/main')
+    },
+    //处理页面刷新
+    loadLocalCacheAction() {
+      //获取本地数据
+      const token = localCache.getCache(LOGIN_TOKEN)
+      const userInfo = localCache.getCache('userInfo')
+      const userMenus = localCache.getCache('userMenus')
+      if (token && userInfo && userMenus) {
+        this.token = token
+        this.userInfo = userInfo
+        this.userMenus = userMenus
+        //加载路由
+        const routes = mapMenustoRoutes(userMenus)
+        routes.forEach((route) => router.addRoute('main', route))
+      }
     }
   }
 })
