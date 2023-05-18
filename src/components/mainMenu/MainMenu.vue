@@ -5,6 +5,7 @@
       <h2 v-show="!isFold" class="title">后台管理系统</h2>
     </div>
     <el-menu
+      :default-active="defaultActive"
       text-color="#b7bdc3"
       active-text-color="#fff"
       background-color="#001529"
@@ -34,8 +35,11 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import router from '@/router'
 import useLoginStore from '@/store/login/login'
+import { mapPathToMenu } from '@/utils/mapMenu'
+import { useRoute } from 'vue-router'
 defineProps({
   isFold: {
     type: Boolean,
@@ -50,6 +54,10 @@ const handleItemClick = (item: any) => {
   const url = item.url
   router.push(url)
 }
+
+const route = useRoute()
+const pathMenu = mapPathToMenu(route.path, userMenus)
+const defaultActive = ref(pathMenu.id + '')
 </script>
 
 <style lang="less" scoped>

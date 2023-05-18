@@ -8,7 +8,7 @@ import { localCache } from '@/utils/cache'
 import { defineStore } from 'pinia'
 import router from '@/router'
 import { LOGIN_TOKEN } from '@/global/constants'
-import { mapMenustoRoutes } from '@/utils/mapMenu'
+import { mapMenusToRoutes } from '@/utils/mapMenu'
 
 interface ILoginState {
   token: string
@@ -47,7 +47,7 @@ const useLoginStore = defineStore('login', {
       localCache.setCache('userMenus', userMenus)
 
       //加载本地路由
-      const routes = mapMenustoRoutes(userMenus)
+      const routes = mapMenusToRoutes(userMenus)
       routes.forEach((route) => {
         router.addRoute('main', route)
       })
@@ -64,7 +64,7 @@ const useLoginStore = defineStore('login', {
         this.userInfo = userInfo
         this.userMenus = userMenus
         //加载路由
-        const routes = mapMenustoRoutes(userMenus)
+        const routes = mapMenusToRoutes(userMenus)
         routes.forEach((route) => router.addRoute('main', route))
       }
     }
