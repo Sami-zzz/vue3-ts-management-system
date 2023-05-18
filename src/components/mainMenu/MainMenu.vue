@@ -35,7 +35,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed } from 'vue'
 import router from '@/router'
 import useLoginStore from '@/store/login/login'
 import { mapPathToMenu } from '@/utils/mapMenu'
@@ -56,8 +56,10 @@ const handleItemClick = (item: any) => {
 }
 
 const route = useRoute()
-const pathMenu = mapPathToMenu(route.path, userMenus)
-const defaultActive = ref(pathMenu.id + '')
+const defaultActive = computed(() => {
+  const pathMenu = mapPathToMenu(route.path, userMenus)
+  return pathMenu.id + ''
+})
 </script>
 
 <style lang="less" scoped>

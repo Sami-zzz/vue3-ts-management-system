@@ -1,3 +1,5 @@
+import type { RouteRecordRaw } from 'vue-router'
+
 //加载本地的路由
 function loadLocalRoutes() {
   const localRoutes = []
@@ -16,11 +18,18 @@ export let firstMenu: any = null
 //根据返回菜单映射路由
 export function mapMenusToRoutes(userMenus: any[]) {
   const localRoutes = loadLocalRoutes()
-  const routes = []
+  const routes: RouteRecordRaw[] = []
   for (const menu of userMenus) {
     for (const submenu of menu.children) {
       const route = localRoutes.find((item) => item.path === submenu.url)
-      if (route) routes.push(route)
+      //给一级菜单添加路由重定向
+      if (route) {
+        if (!routes.find((item) => item.path === menu.url)) {
+          routes.push({ path: menu.url, redirect: route.path })
+        }
+        //添加二级菜单路由
+        routes.push(route)
+      }
       if (!firstMenu && route) {
         firstMenu = submenu
       }
@@ -38,4 +47,18 @@ export function mapPathToMenu(path: string, userMenus: any[]) {
       }
     }
   }
+}
+
+//根据路径返回面包屑
+export function mapPathToBreadcrumbs(path: string, userMenus: any[]) {
+  const breadcrumbs = []
+  for (const menu of userMenus) {
+    for (const submenu of menu.children) {
+      if (submenu.url === path) {
+        breadcrumbs.push({ name: menu.name, path: menu.url })
+        breadcrumbs.push({ name: submenu.name, path: submenu.url })
+      }
+    }
+  }
+  return breadcrumbs
 }
