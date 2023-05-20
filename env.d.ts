@@ -5,3 +5,5 @@
 //   const component: DefineComponent
 //   export default component
 // }
+
+declare module '*.mjs'
