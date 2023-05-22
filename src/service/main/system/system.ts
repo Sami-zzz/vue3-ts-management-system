@@ -1,11 +1,9 @@
 import myRequest from '@/service'
 
-export function postUsersListRequest() {
+export function postUsersListRequest(queryInfo: any) {
+  console.log(queryInfo)
   return myRequest.post({
     url: '/users/list',
-    data: {
-      offset: 0,
-      size: 10
-    }
+    data: queryInfo
   })
 }

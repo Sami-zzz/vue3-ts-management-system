@@ -69,18 +69,47 @@
         </el-table-column>
       </el-table>
     </div>
-    <div class="pagination">分页</div>
+    <div class="pagination">
+      <el-pagination
+        v-model:current-page="currentPage"
+        v-model:page-size="pageSize"
+        :page-sizes="[10, 20, 30]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="usersTotalCount"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import useSystemStore from '@/store/main/system/system'
 import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/format'
 
 const systemStore = useSystemStore()
-systemStore.postUsersListAction()
-const { usersList } = storeToRefs(systemStore)
+const currentPage = ref(1)
+const pageSize = ref(10)
+
+const fetchUsersListData = () => {
+  const size = pageSize.value
+  const offset = (currentPage.value - 1) * size
+  const info = { size, offset }
+  systemStore.postUsersListAction(info)
+}
+fetchUsersListData()
+
+const { usersList, usersTotalCount } = storeToRefs(systemStore)
+
+const handleSizeChange = () => {
+  fetchUsersListData()
+}
+
+const handleCurrentChange = () => {
+  fetchUsersListData()
+}
 </script>
 
 <style lang="less" scoped>
@@ -110,5 +139,11 @@ const { usersList } = storeToRefs(systemStore)
     margin-left: 0;
     padding: 5px 8px;
   }
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
 }
 </style>
