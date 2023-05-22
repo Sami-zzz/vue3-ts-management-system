@@ -93,11 +93,11 @@ const systemStore = useSystemStore()
 const currentPage = ref(1)
 const pageSize = ref(10)
 
-const fetchUsersListData = () => {
+const fetchUsersListData = (formData: any = {}) => {
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
   const info = { size, offset }
-  systemStore.postUsersListAction(info)
+  systemStore.postUsersListAction({ ...info, ...formData })
 }
 fetchUsersListData()
 
@@ -110,6 +110,10 @@ const handleSizeChange = () => {
 const handleCurrentChange = () => {
   fetchUsersListData()
 }
+
+defineExpose({
+  fetchUsersListData
+})
 </script>
 
 <style lang="less" scoped>
