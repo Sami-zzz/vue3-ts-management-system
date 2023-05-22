@@ -30,13 +30,13 @@
           align="center"
           label="手机号码"
           prop="cellphone"
-          width="150px"
+          width="180px"
         />
         <el-table-column
           align="center"
           label="状态"
           prop="enable"
-          width="100px"
+          width="120px"
         >
           <template #default="scope">
             <el-button
@@ -48,10 +48,18 @@
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="创建时间" prop="createAt" />
-        <el-table-column align="center" label="更新时间" prop="updateAt" />
+        <el-table-column align="center" label="创建时间" prop="createAt">
+          <template #default="scope">
+            {{ formatUTC(scope.row.createAt) }}
+          </template>
+        </el-table-column>
+        <el-table-column align="center" label="更新时间" prop="updateAt">
+          <template #default="scope">
+            {{ formatUTC(scope.row.updateAt) }}
+          </template>
+        </el-table-column>
 
-        <el-table-column align="center" label="操作" width="150px">
+        <el-table-column align="center" label="操作" width="180px">
           <el-button size="small" icon="Edit" type="primary" text>
             编辑
           </el-button>
@@ -68,6 +76,7 @@
 <script setup lang="ts">
 import useSystemStore from '@/store/main/system/system'
 import { storeToRefs } from 'pinia'
+import { formatUTC } from '@/utils/format'
 
 const systemStore = useSystemStore()
 systemStore.postUsersListAction()
