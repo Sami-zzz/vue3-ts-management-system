@@ -19,7 +19,7 @@ const useSystemStore = defineStore('system', {
     },
     async deleteUserByIdAction(id: number) {
       const deleteResult = await deleteUserByIdRequest(id)
-
+      console.log(deleteResult)
       //刷新获取数据
       this.postUsersListAction({ offset: 0, size: 10 })
     }

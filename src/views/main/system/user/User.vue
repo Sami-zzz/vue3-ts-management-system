@@ -4,22 +4,29 @@
       @query-click="handleQueryClick"
       @reset-click="handleResetClick"
     />
-    <UserContent ref="contentRef" />
+    <UserContent ref="contentRef" @new-click="handleNewClick" />
+    <UserModal ref="modalRef" />
   </div>
 </template>
 
 <script setup lang="ts">
 import UserSearch from './c-cpns/UserSearch.vue'
 import UserContent from './c-cpns/UserContent.vue'
+import UserModal from './c-cpns/UserModal.vue'
 import { ref } from 'vue'
 
 const contentRef = ref<InstanceType<typeof UserContent>>()
+const modalRef = ref<InstanceType<typeof UserModal>>()
 const handleQueryClick = (formData: any) => {
   contentRef.value?.fetchUsersListData(formData)
 }
 
 const handleResetClick = () => {
   contentRef.value?.fetchUsersListData()
+}
+
+const handleNewClick = () => {
+  modalRef.value?.setModalVisible()
 }
 </script>
 

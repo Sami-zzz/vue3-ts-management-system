@@ -2,7 +2,7 @@
   <div class="content">
     <div class="header">
       <h3 class="title">用户列表</h3>
-      <el-button type="primary">新建用户</el-button>
+      <el-button type="primary" @click="handleNewUserClick">新建用户</el-button>
     </div>
     <div class="table">
       <el-table :data="usersList" border style="width: 100%">
@@ -101,6 +101,8 @@ const systemStore = useSystemStore()
 const currentPage = ref(1)
 const pageSize = ref(10)
 
+const emit = defineEmits(['newClick'])
+
 const fetchUsersListData = (formData: any = {}) => {
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
@@ -121,6 +123,10 @@ const handleCurrentChange = () => {
 
 const handleDeleteBtnClick = (id: number) => {
   systemStore.deleteUserByIdAction(id)
+}
+
+const handleNewUserClick = () => {
+  emit('newClick')
 }
 defineExpose({
   fetchUsersListData
