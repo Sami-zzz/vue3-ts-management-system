@@ -2,7 +2,11 @@ import {
   deleteUserByIdRequest,
   newUserRequest,
   editUserRequest,
-  postUsersListRequest
+  postUsersListRequest,
+  postPageListRequest,
+  deletePageByIdRequest,
+  newPageRequest,
+  editPageRequest
 } from '@/service/main/system/system'
 import { defineStore } from 'pinia'
 import type { ISystemState } from './type'
@@ -10,9 +14,12 @@ import type { ISystemState } from './type'
 const useSystemStore = defineStore('system', {
   state: (): ISystemState => ({
     usersList: [],
-    usersTotalCount: 0
+    usersTotalCount: 0,
+    pageList: [],
+    pageTotalCount: 0
   }),
   actions: {
+    //用户增删改查
     async postUsersListAction(queryInfo: any) {
       const usersListResult = await postUsersListRequest(queryInfo)
       const { list, totalCount } = usersListResult.data
@@ -36,6 +43,31 @@ const useSystemStore = defineStore('system', {
       console.log('更新成功')
       //刷新获取数据
       this.postUsersListAction({ offset: 0, size: 10 })
+    },
+    //page增删改查
+    async postPageListAction(pageName: string, queryInfo: any) {
+      const pageListResult = await postPageListRequest(pageName, queryInfo)
+      const { list, totalCount } = pageListResult.data
+      this.pageList = list
+      this.pageTotalCount = totalCount
+    },
+    async deletePageByIdAction(pageName: string, id: number) {
+      await deletePageByIdRequest(pageName, id)
+      console.log('删除成功')
+      //刷新获取数据
+      this.postPageListAction(pageName, { offset: 0, size: 10 })
+    },
+    async newPageAction(pageName: string, pageInfo: any) {
+      await newPageRequest(pageName, pageInfo)
+      console.log('新建成功')
+      //刷新获取数据
+      this.postPageListAction(pageName, { offset: 0, size: 10 })
+    },
+    async editPageAction(pageName: string, id: number, pageInfo: any) {
+      await editPageRequest(pageName, id, pageInfo)
+      console.log('更新成功')
+      //刷新获取数据
+      this.postPageListAction(pageName, { offset: 0, size: 10 })
     }
   }
 })
