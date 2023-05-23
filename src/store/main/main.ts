@@ -18,7 +18,6 @@ const useMainStore = defineStore('main', {
     async fetchEntireDataAction() {
       const rolesResult = await getEntireRolesRequest()
       const departmentsResult = await getEntireDepartmentsRequest()
-      console.log(rolesResult, departmentsResult)
       // 保存数据
       this.entireRoles = rolesResult.data.list
       this.entireDepartments = departmentsResult.data.list

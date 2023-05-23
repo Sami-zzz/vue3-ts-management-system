@@ -64,12 +64,13 @@ const useLoginStore = defineStore('login', {
       const token = localCache.getCache(LOGIN_TOKEN)
       const userInfo = localCache.getCache('userInfo')
       const userMenus = localCache.getCache('userMenus')
+
       if (token && userInfo && userMenus) {
         this.token = token
         this.userInfo = userInfo
         this.userMenus = userMenus
 
-        //获取所有roles和departments的数据
+        //获取所有roles和departments
         const mainStore = useMainStore()
         mainStore.fetchEntireDataAction()
 
