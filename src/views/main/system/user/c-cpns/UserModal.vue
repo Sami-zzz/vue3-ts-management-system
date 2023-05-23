@@ -52,7 +52,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取消</el-button>
-          <el-button type="primary" @click="dialogVisible = false">
+          <el-button type="primary" @click="handleConfirmClick">
             确定
           </el-button>
         </span>
@@ -63,6 +63,7 @@
 
 <script setup lang="ts">
 import useMainStore from '@/store/main/main'
+import useSystemStore from '@/store/main/system/system'
 import { storeToRefs } from 'pinia'
 import { ref, reactive } from 'vue'
 const formData = reactive<any>({
@@ -75,12 +76,18 @@ const formData = reactive<any>({
 })
 
 const mainStore = useMainStore()
+const systemStore = useSystemStore()
 const { entireRoles, entireDepartments } = storeToRefs(mainStore)
 
 const dialogVisible = ref(false)
 
 const setModalVisible = () => {
   dialogVisible.value = true
+}
+
+const handleConfirmClick = () => {
+  dialogVisible.value = false
+  systemStore.newUserAction(formData)
 }
 
 defineExpose({

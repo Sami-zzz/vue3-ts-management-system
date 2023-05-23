@@ -1,5 +1,6 @@
 import {
   deleteUserByIdRequest,
+  newUserRequest,
   postUsersListRequest
 } from '@/service/main/system/system'
 import { defineStore } from 'pinia'
@@ -18,8 +19,14 @@ const useSystemStore = defineStore('system', {
       this.usersTotalCount = totalCount
     },
     async deleteUserByIdAction(id: number) {
-      const deleteResult = await deleteUserByIdRequest(id)
-      console.log(deleteResult)
+      await deleteUserByIdRequest(id)
+      console.log('删除成功')
+      //刷新获取数据
+      this.postUsersListAction({ offset: 0, size: 10 })
+    },
+    async newUserAction(userInfo: any) {
+      await newUserRequest(userInfo)
+      console.log('新建成功')
       //刷新获取数据
       this.postUsersListAction({ offset: 0, size: 10 })
     }
