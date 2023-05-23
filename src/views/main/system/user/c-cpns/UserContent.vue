@@ -61,7 +61,13 @@
 
         <el-table-column align="center" label="操作" width="180px">
           <template #default="scope">
-            <el-button size="small" icon="Edit" type="primary" text>
+            <el-button
+              size="small"
+              icon="Edit"
+              type="primary"
+              text
+              @click="handleEditBtnClick(scope.row)"
+            >
               编辑
             </el-button>
             <el-button
@@ -101,7 +107,7 @@ const systemStore = useSystemStore()
 const currentPage = ref(1)
 const pageSize = ref(10)
 
-const emit = defineEmits(['newClick'])
+const emit = defineEmits(['newClick', 'editClick'])
 
 const fetchUsersListData = (formData: any = {}) => {
   const size = pageSize.value
@@ -125,9 +131,14 @@ const handleDeleteBtnClick = (id: number) => {
   systemStore.deleteUserByIdAction(id)
 }
 
+const handleEditBtnClick = (itemData: any) => {
+  emit('editClick', itemData)
+}
+
 const handleNewUserClick = () => {
   emit('newClick')
 }
+
 defineExpose({
   fetchUsersListData
 })

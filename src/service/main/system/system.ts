@@ -28,3 +28,14 @@ export function newUserRequest(userInfo: any) {
     url: '/users/list'
   })
 }
+
+export function editUserRequest(id: number, userInfo: any) {
+  console.log('id: ' + id + '  userInfo: ' + JSON.stringify(userInfo))
+  // return myRequest.patch({
+  //   url: `/users/${id}`,
+  //   data: userInfo
+  // })
+  return myRequest.post({
+    url: '/users/list'
+  })
+}

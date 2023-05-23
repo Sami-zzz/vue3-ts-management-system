@@ -1,6 +1,7 @@
 import {
   deleteUserByIdRequest,
   newUserRequest,
+  editUserRequest,
   postUsersListRequest
 } from '@/service/main/system/system'
 import { defineStore } from 'pinia'
@@ -27,6 +28,12 @@ const useSystemStore = defineStore('system', {
     async newUserAction(userInfo: any) {
       await newUserRequest(userInfo)
       console.log('新建成功')
+      //刷新获取数据
+      this.postUsersListAction({ offset: 0, size: 10 })
+    },
+    async editUserAction(id: number, userInfo: any) {
+      await editUserRequest(id, userInfo)
+      console.log('更新成功')
       //刷新获取数据
       this.postUsersListAction({ offset: 0, size: 10 })
     }

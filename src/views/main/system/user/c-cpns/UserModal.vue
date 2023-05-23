@@ -1,6 +1,11 @@
 <template>
   <div class="modal">
-    <el-dialog v-model="dialogVisible" title="新建用户" width="30%" center>
+    <el-dialog
+      v-model="dialogVisible"
+      :title="isEditRef ? '编辑用户' : '新建用户'"
+      width="30%"
+      center
+    >
       <div class="form">
         <el-form :model="formData" label-width="80px" size="large">
           <el-form-item label="用户名" prop="name">
@@ -12,7 +17,7 @@
               placeholder="请输入真实姓名"
             />
           </el-form-item>
-          <el-form-item label="密码" prop="password">
+          <el-form-item label="密码" prop="password" v-if="!isEditRef">
             <el-input
               v-model="formData.password"
               placeholder="请输入密码"
@@ -80,14 +85,32 @@ const systemStore = useSystemStore()
 const { entireRoles, entireDepartments } = storeToRefs(mainStore)
 
 const dialogVisible = ref(false)
+const isEditRef = ref(false)
+const itemRef = ref()
 
-const setModalVisible = () => {
+const setModalVisible = (isEdit: boolean = false, itemData?: any) => {
   dialogVisible.value = true
+  isEditRef.value = isEdit
+  if (isEdit && itemData) {
+    for (const key in formData) {
+      formData[key] = itemData[key]
+    }
+    itemRef.value = itemData
+  } else {
+    for (const key in formData) {
+      formData[key] = ''
+    }
+    itemRef.value = null
+  }
 }
 
 const handleConfirmClick = () => {
   dialogVisible.value = false
-  systemStore.newUserAction(formData)
+  if (!isEditRef.value) {
+    systemStore.newUserAction(formData)
+  } else {
+    systemStore.editUserAction(itemRef.value.id, formData)
+  }
 }
 
 defineExpose({
