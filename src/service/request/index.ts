@@ -64,7 +64,7 @@ class MYRequest {
     )
   }
 
-  request<T>(config: MYRequestConfig): Promise<T> {
+  request<T = any>(config: MYRequestConfig): Promise<T> {
     //为request请求使用单独的请求拦截器
     if (config.interceptors?.requestInterceptor) {
       config = config.interceptors.requestInterceptor(config)
@@ -94,15 +94,15 @@ class MYRequest {
     })
   }
 
-  get<T>(config: MYRequestConfig): Promise<T> {
+  get<T = any>(config: MYRequestConfig): Promise<T> {
     return this.request({ ...config, method: 'GET' })
   }
 
-  post<T>(config: MYRequestConfig): Promise<T> {
+  post<T = any>(config: MYRequestConfig): Promise<T> {
     return this.request({ ...config, method: 'POST' })
   }
 
-  delete<T>(config: MYRequestConfig): Promise<T> {
+  delete<T = any>(config: MYRequestConfig): Promise<T> {
     return this.request({ ...config, method: 'DELETE' })
   }
 

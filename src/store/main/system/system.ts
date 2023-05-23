@@ -12,7 +12,7 @@ const useSystemStore = defineStore('system', {
   }),
   actions: {
     async postUsersListAction(queryInfo: any) {
-      const usersListResult: any = await postUsersListRequest(queryInfo)
+      const usersListResult = await postUsersListRequest(queryInfo)
       const { list, totalCount } = usersListResult.data
       this.usersList = list
       this.usersTotalCount = totalCount

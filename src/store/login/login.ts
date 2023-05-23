@@ -9,6 +9,7 @@ import { defineStore } from 'pinia'
 import router from '@/router'
 import { LOGIN_TOKEN } from '@/global/constants'
 import { mapMenusToRoutes } from '@/utils/mapMenu'
+import useMainStore from '../main/main'
 
 interface ILoginState {
   token: string
@@ -24,29 +25,33 @@ const useLoginStore = defineStore('login', {
   }),
   actions: {
     async accountLoginAction(account: IAccount) {
-      const loginResult: any = await accountLoginRequest(account)
+      // 1.获取token并缓存
+      const loginResult = await accountLoginRequest(account)
       const id = loginResult.data.id
-      // 缓存token
       this.token = loginResult.data.token
       localCache.setCache(LOGIN_TOKEN, this.token)
 
-      //获取用户详细信息
-      const userInfoResult: any = await getUserInfoByIdRequest(id)
+      //2.获取用户详细信息
+      const userInfoResult = await getUserInfoByIdRequest(id)
       const userInfo = userInfoResult.data
       this.userInfo = userInfo
 
-      //获取菜单
-      const userMenusResult: any = await getUserMenusByRoleIdRequest(
+      //3.获取菜单
+      const userMenusResult = await getUserMenusByRoleIdRequest(
         this.userInfo.role.id
       )
       const userMenus = userMenusResult.data
       this.userMenus = userMenus
-      console.log(userMenus)
 
+      //4.缓存用户和菜单
       localCache.setCache('userInfo', userInfo)
       localCache.setCache('userMenus', userMenus)
 
-      //加载本地路由
+      //5.获取所有roles和departments的数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
+
+      //6.加载本地路由
       const routes = mapMenusToRoutes(userMenus)
       routes.forEach((route) => {
         router.addRoute('main', route)
@@ -63,6 +68,11 @@ const useLoginStore = defineStore('login', {
         this.token = token
         this.userInfo = userInfo
         this.userMenus = userMenus
+
+        //获取所有roles和departments的数据
+        const mainStore = useMainStore()
+        mainStore.fetchEntireDataAction()
+
         //加载路由
         const routes = mapMenusToRoutes(userMenus)
         routes.forEach((route) => router.addRoute('main', route))
