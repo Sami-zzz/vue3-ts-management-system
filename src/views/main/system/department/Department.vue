@@ -10,7 +10,9 @@
       @new-click="handleNewClick"
       @edit-click="handleEditClick"
       :content-config="contentConfig"
-    />
+    >
+      <!-- 自定义内容 -->
+    </PageContent>
     <PageModal ref="modalRef" />
   </div>
 </template>
