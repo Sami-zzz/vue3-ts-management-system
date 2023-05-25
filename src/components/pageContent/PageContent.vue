@@ -7,7 +7,12 @@
       }}</el-button>
     </div>
     <div class="table">
-      <el-table :data="pageList" border style="width: 100%">
+      <el-table
+        :data="pageList"
+        border
+        style="width: 100%"
+        v-bind="contentConfig.childrenTree"
+      >
         <template v-for="item in contentConfig.tableList" :key="item.prop">
           <!-- 时间类型列 -->
           <template v-if="item.type === 'timer'">
@@ -89,6 +94,7 @@ interface IProps {
       btnTitle?: string
     }
     tableList: any[]
+    childrenTree?: any
   }
 }
 
