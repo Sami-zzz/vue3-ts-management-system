@@ -31,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
 import PageSearch from '@/components/pageSearch/PageSearch.vue'
 import searchConfig from './config/search.config'
 import PageContent from '@/components/pageContent/PageContent.vue'
@@ -42,19 +42,31 @@ import modalConfig from './config/modal.config'
 import usePageContent from '@/hooks/usePageContent'
 import usePageModal from '@/hooks/usePageModal'
 import useMainStore from '@/store/main/main'
+
+import { mapMenusListToIds } from '@/utils/mapMenu'
 import { storeToRefs } from 'pinia'
+import type { ElTree } from 'element-plus'
 
 const { contentRef, handleQueryClick, handleResetClick } = usePageContent()
-const { modalRef, handleEditClick, handleNewClick } = usePageModal()
+const { modalRef, handleEditClick, handleNewClick } = usePageModal(editCallback)
 
 //获取所有菜单数据
 const mainStore = useMainStore()
 const { entireMenu } = storeToRefs(mainStore)
-
+//菜单权限数据props
 const otherInfo = ref({})
 const handleElTreeCheck = (_: any, data2: any) => {
   const menuList = [...data2.checkedKeys, ...data2.halfCheckedKeys]
   otherInfo.value = { menuList }
+}
+
+//编辑角色时显示所分配的菜单
+const treeRef = ref<InstanceType<typeof ElTree>>()
+function editCallback(itemData: any) {
+  nextTick(() => {
+    const menuIds = mapMenusListToIds(itemData.menuList)
+    treeRef.value?.setCheckedKeys(menuIds)
+  })
 }
 </script>
 
