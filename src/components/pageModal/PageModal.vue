@@ -38,6 +38,9 @@
                   </template>
                 </el-select>
               </template>
+              <template v-if="item.type === 'custom'">
+                <slot :name="item.slotName"> </slot>
+              </template>
             </el-form-item>
           </template>
         </el-form>
@@ -67,6 +70,7 @@ interface IProps {
     }
     formItems: any[]
   }
+  otherInfo?: any
 }
 //初始化表单
 const props = defineProps<IProps>()
@@ -103,13 +107,18 @@ const setModalVisible = (isEdit: boolean = false, itemData?: any) => {
 
 const handleConfirmClick = () => {
   dialogVisible.value = false
+  //获取其他数据
+  let infoData = formData
+  if (props.otherInfo) {
+    infoData = { ...infoData, ...props.otherInfo }
+  }
   if (!isEditRef.value) {
-    systemStore.newPageAction(props.modalConfig.pageName, formData)
+    systemStore.newPageAction(props.modalConfig.pageName, infoData)
   } else {
     systemStore.editPageAction(
       props.modalConfig.pageName,
       itemRef.value.id,
-      formData
+      infoData
     )
   }
 }

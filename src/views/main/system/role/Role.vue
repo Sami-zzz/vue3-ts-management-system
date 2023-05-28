@@ -11,11 +11,27 @@
       @edit-click="handleEditClick"
       @new-click="handleNewClick"
     />
-    <PageModal :modal-config="modalConfig" ref="modalRef" />
+    <PageModal
+      :modal-config="modalConfig"
+      ref="modalRef"
+      :other-info="otherInfo"
+    >
+      <template #menulist>
+        <el-tree
+          ref="treeRef"
+          :data="entireMenu"
+          show-checkbox
+          node-key="id"
+          :props="{ children: 'children', label: 'name' }"
+          @check="handleElTreeCheck"
+        ></el-tree>
+      </template>
+    </PageModal>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import PageSearch from '@/components/pageSearch/PageSearch.vue'
 import searchConfig from './config/search.config'
 import PageContent from '@/components/pageContent/PageContent.vue'
@@ -25,9 +41,21 @@ import modalConfig from './config/modal.config'
 
 import usePageContent from '@/hooks/usePageContent'
 import usePageModal from '@/hooks/usePageModal'
+import useMainStore from '@/store/main/main'
+import { storeToRefs } from 'pinia'
 
 const { contentRef, handleQueryClick, handleResetClick } = usePageContent()
 const { modalRef, handleEditClick, handleNewClick } = usePageModal()
+
+//获取所有菜单数据
+const mainStore = useMainStore()
+const { entireMenu } = storeToRefs(mainStore)
+
+const otherInfo = ref({})
+const handleElTreeCheck = (_: any, data2: any) => {
+  const menuList = [...data2.checkedKeys, ...data2.halfCheckedKeys]
+  otherInfo.value = { menuList }
+}
 </script>
 
 <style lang="less" scoped></style>
