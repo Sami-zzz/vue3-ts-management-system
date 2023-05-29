@@ -2,7 +2,7 @@
   <div class="content">
     <div class="header">
       <h3 class="title">{{ contentConfig.header?.title ?? '数据列表' }}</h3>
-      <el-button type="primary" @click="handleNewClick">{{
+      <el-button v-if="isCreate" type="primary" @click="handleNewClick">{{
         contentConfig.header?.btnTitle ?? '新建数据'
       }}</el-button>
     </div>
@@ -27,6 +27,7 @@
             <el-table-column align="center" v-bind="item">
               <template #default="scope">
                 <el-button
+                  v-if="isUpdate"
                   size="small"
                   icon="Edit"
                   type="primary"
@@ -36,6 +37,7 @@
                   编辑
                 </el-button>
                 <el-button
+                  v-if="isDelete"
                   size="small"
                   icon="Delete"
                   type="danger"
@@ -85,6 +87,7 @@ import { ref } from 'vue'
 import useSystemStore from '@/store/main/system/system'
 import { storeToRefs } from 'pinia'
 import { formatUTC } from '@/utils/format'
+import usePermissions from '@/hooks/usePermissions'
 //定义数据类型
 interface IProps {
   contentConfig: {
@@ -105,8 +108,18 @@ const currentPage = ref(1)
 const pageSize = ref(10)
 
 const emit = defineEmits(['newClick', 'editClick'])
+
+//获取按钮权限
+const isCreate = usePermissions(`${props.contentConfig.pageName}:create`)
+const isDelete = usePermissions(`${props.contentConfig.pageName}:delete`)
+const isUpdate = usePermissions(`${props.contentConfig.pageName}:update`)
+const isQuery = usePermissions(`${props.contentConfig.pageName}:query`)
+
 //发送请求获取列表
 const fetchPageListData = (formData: any = {}) => {
+  //是否有查询权限
+  if (!isQuery) return
+
   const size = pageSize.value
   const offset = (currentPage.value - 1) * size
   const info = { size, offset }

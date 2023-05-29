@@ -8,20 +8,22 @@ import { localCache } from '@/utils/cache'
 import { defineStore } from 'pinia'
 import router from '@/router'
 import { LOGIN_TOKEN } from '@/global/constants'
-import { mapMenusToRoutes } from '@/utils/mapMenu'
+import { mapMenusToRoutes, mapMenusToPermissions } from '@/utils/mapMenu'
 import useMainStore from '../main/main'
 
 interface ILoginState {
   token: string
   userInfo: any
   userMenus: any
+  permissions: any
 }
 
 const useLoginStore = defineStore('login', {
   state: (): ILoginState => ({
     token: '',
     userInfo: {},
-    userMenus: []
+    userMenus: [],
+    permissions: []
   }),
   actions: {
     async accountLoginAction(account: IAccount) {
@@ -51,7 +53,11 @@ const useLoginStore = defineStore('login', {
       const mainStore = useMainStore()
       mainStore.fetchEntireDataAction()
 
-      //6.加载本地路由
+      //6.获取用户按钮权限
+      const permissions = mapMenusToPermissions(userMenus)
+      this.permissions = permissions
+
+      //7.加载本地路由
       const routes = mapMenusToRoutes(userMenus)
       routes.forEach((route) => {
         router.addRoute('main', route)
@@ -73,6 +79,10 @@ const useLoginStore = defineStore('login', {
         //获取所有roles和departments
         const mainStore = useMainStore()
         mainStore.fetchEntireDataAction()
+
+        //获取用户按钮权限
+        const permissions = mapMenusToPermissions(userMenus)
+        this.permissions = permissions
 
         //加载路由
         const routes = mapMenusToRoutes(userMenus)

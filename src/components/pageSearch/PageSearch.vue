@@ -1,5 +1,5 @@
 <template>
-  <div class="search">
+  <div class="search" v-if="isQuery">
     <el-form :model="searchForm" ref="formRef" label-width="80px" size="large">
       <el-row :gutter="20">
         <template v-for="item in searchConfig.formItems" :key="item.prop">
@@ -49,13 +49,18 @@
 <script setup lang="ts">
 import type { ElForm } from 'element-plus'
 import { reactive, ref } from 'vue'
+import usePermissions from '@/hooks/usePermissions'
 //定义传入配置的类型
 interface IProps {
   searchConfig: {
+    pageName: string
     formItems: any[]
   }
 }
 const props = defineProps<IProps>()
+//是否有查询权限
+const isQuery = usePermissions(`${props.searchConfig.pageName}:query`)
+
 //初始化表单数据
 const initialForm: any = {}
 for (const item of props.searchConfig.formItems) {

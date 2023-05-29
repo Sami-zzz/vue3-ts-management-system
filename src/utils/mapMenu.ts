@@ -63,6 +63,7 @@ export function mapPathToBreadcrumbs(path: string, userMenus: any[]) {
   return breadcrumbs
 }
 
+//从菜单里获取权限id
 export function mapMenusListToIds(menulist: any[]) {
   const ids: number[] = []
   function recurseGetId(menulist: any[]) {
@@ -76,4 +77,20 @@ export function mapMenusListToIds(menulist: any[]) {
   }
   recurseGetId(menulist)
   return ids
+}
+
+//菜单中获取按钮权限
+export function mapMenusToPermissions(menulist: any[]) {
+  const permissions: string[] = []
+  function recurseGetPermissions(menus: any[]) {
+    for (const item of menus) {
+      if (item.type === 3) {
+        permissions.push(item.permission)
+      } else {
+        recurseGetPermissions(item.children ?? [])
+      }
+    }
+  }
+  recurseGetPermissions(menulist)
+  return permissions
 }
