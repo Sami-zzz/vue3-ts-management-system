@@ -48,7 +48,10 @@ import { storeToRefs } from 'pinia'
 import type { ElTree } from 'element-plus'
 
 const { contentRef, handleQueryClick, handleResetClick } = usePageContent()
-const { modalRef, handleEditClick, handleNewClick } = usePageModal(editCallback)
+const { modalRef, handleEditClick, handleNewClick } = usePageModal(
+  newCallback,
+  editCallback
+)
 
 //获取所有菜单数据
 const mainStore = useMainStore()
@@ -62,6 +65,12 @@ const handleElTreeCheck = (_: any, data2: any) => {
 
 //编辑角色时显示所分配的菜单
 const treeRef = ref<InstanceType<typeof ElTree>>()
+function newCallback() {
+  nextTick(() => {
+    treeRef.value?.setCheckedKeys([])
+  })
+}
+
 function editCallback(itemData: any) {
   nextTick(() => {
     const menuIds = mapMenusListToIds(itemData.menuList)
