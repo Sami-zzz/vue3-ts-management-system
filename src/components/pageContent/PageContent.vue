@@ -115,6 +115,19 @@ const isDelete = usePermissions(`${props.contentConfig.pageName}:delete`)
 const isUpdate = usePermissions(`${props.contentConfig.pageName}:update`)
 const isQuery = usePermissions(`${props.contentConfig.pageName}:query`)
 
+//监听store中的action执行，返回第1页
+systemStore.$onAction(({ name, after }) => {
+  after(() => {
+    if (
+      name === 'deletePageByIdAction' ||
+      name === 'editPageAction' ||
+      name === 'newPageAction'
+    ) {
+      currentPage.value = 1
+    }
+  })
+})
+
 //发送请求获取列表
 const fetchPageListData = (formData: any = {}) => {
   //是否有查询权限
