@@ -20,7 +20,7 @@
             :size="30"
             src="https://i.postimg.cc/P5nVmRZJ/QQ-20230516152407.jpg"
           />
-          <span class="name">admin</span>
+          <span class="name">{{ loginStore.userInfo.name }}</span>
         </span>
         <template #dropdown>
           <el-dropdown-menu>
@@ -47,6 +47,8 @@
 import { useRouter } from 'vue-router'
 import { LOGIN_TOKEN } from '@/global/constants'
 import { localCache } from '@/utils/cache'
+import useLoginStore from '@/store/login/login'
+const loginStore = useLoginStore()
 
 const router = useRouter()
 function handleExitClick() {
