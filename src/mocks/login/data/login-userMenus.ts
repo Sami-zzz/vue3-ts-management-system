@@ -420,6 +420,146 @@ export const userMenusList = [
             parentId: 38
           }
         ]
+      },
+      {
+        id: 1,
+        name: '系统管理',
+        type: 1,
+        url: '/main/system',
+        icon: 'el-icon-setting',
+        sort: 2,
+        children: [
+          {
+            id: 2,
+            url: '/main/system/user',
+            name: '用户管理',
+            sort: 100,
+            type: 2,
+            children: [
+              {
+                id: 5,
+                url: null,
+                name: '创建用户',
+                sort: null,
+                type: 3,
+                parentId: 2,
+                permission: 'system:users:create'
+              },
+              {
+                id: 6,
+                url: null,
+                name: '删除用户',
+                sort: null,
+                type: 3,
+                parentId: 2,
+                permission: 'system:users:delete'
+              },
+              {
+                id: 7,
+                url: null,
+                name: '修改用户',
+                sort: null,
+                type: 3,
+                parentId: 2,
+                permission: 'system:users:update'
+              },
+              {
+                id: 8,
+                url: null,
+                name: '查询用户',
+                sort: null,
+                type: 3,
+                parentId: 2,
+                permission: 'system:users:query'
+              }
+            ],
+            parentId: 1
+          },
+          {
+            id: 3,
+            url: '/main/system/department',
+            name: '部门管理',
+            sort: 101,
+            type: 2,
+            children: [
+              {
+                id: 19,
+                url: null,
+                name: '修改部门',
+                sort: null,
+                type: 3,
+                parentId: 3,
+                permission: 'system:department:update'
+              },
+              {
+                id: 20,
+                url: null,
+                name: '查询部门',
+                sort: null,
+                type: 3,
+                parentId: 3,
+                permission: 'system:department:query'
+              }
+            ],
+            parentId: 1
+          },
+          {
+            id: 4,
+            url: '/main/system/menu',
+            name: '菜单管理',
+            sort: 103,
+            type: 2,
+            children: [
+              {
+                id: 21,
+                url: null,
+                name: '创建菜单',
+                sort: null,
+                type: 3,
+                parentId: 4,
+                permission: 'system:menu:create'
+              },
+              {
+                id: 23,
+                url: null,
+                name: '修改菜单',
+                sort: null,
+                type: 3,
+                parentId: 4,
+                permission: 'system:menu:update'
+              },
+              {
+                id: 24,
+                url: null,
+                name: '查询菜单',
+                sort: null,
+                type: 3,
+                parentId: 4,
+                permission: 'system:menu:query'
+              }
+            ],
+            parentId: 1
+          },
+          {
+            id: 25,
+            url: '/main/system/role',
+            name: '角色管理',
+            sort: 102,
+            type: 2,
+            children: [
+              {
+                id: 29,
+                url: null,
+                name: '查询角色',
+                sort: null,
+                type: 3,
+                parentId: 25,
+                permission: 'system:role:query'
+              }
+            ],
+            parentId: 1
+          }
+        ]
       }
     ]
   }
