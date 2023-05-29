@@ -9,6 +9,7 @@ import {
   editPageRequest
 } from '@/service/main/system/system'
 import { defineStore } from 'pinia'
+import useMainStore from '../main'
 import type { ISystemState } from './type'
 
 const useSystemStore = defineStore('system', {
@@ -47,6 +48,7 @@ const useSystemStore = defineStore('system', {
     //page增删改查
     async postPageListAction(pageName: string, queryInfo: any) {
       const pageListResult = await postPageListRequest(pageName, queryInfo)
+      console.log('查询成功')
       const { list, totalCount } = pageListResult.data
       this.pageList = list
       this.pageTotalCount = totalCount
@@ -56,18 +58,27 @@ const useSystemStore = defineStore('system', {
       console.log('删除成功')
       //刷新获取数据
       this.postPageListAction(pageName, { offset: 0, size: 10 })
+      // 重新获取完整的数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
     },
     async newPageAction(pageName: string, pageInfo: any) {
       await newPageRequest(pageName, pageInfo)
       console.log('新建成功')
       //刷新获取数据
       this.postPageListAction(pageName, { offset: 0, size: 10 })
+      // 获取完整的数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
     },
     async editPageAction(pageName: string, id: number, pageInfo: any) {
       await editPageRequest(pageName, id, pageInfo)
       console.log('更新成功')
       //刷新获取数据
       this.postPageListAction(pageName, { offset: 0, size: 10 })
+      // 获取完整的数据
+      const mainStore = useMainStore()
+      mainStore.fetchEntireDataAction()
     }
   }
 })
