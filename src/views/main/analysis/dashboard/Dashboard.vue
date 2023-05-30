@@ -17,16 +17,18 @@
         <ChartCard> </ChartCard>
       </ElCol>
       <ElCol :span="7">
-        <ChartCard> </ChartCard>
+        <ChartCard
+          ><RoseEChart :rose-data="showGoodsCategoryCount"
+        /></ChartCard>
       </ElCol>
     </ElRow>
     <!-- 底部图表 -->
     <ElRow :gutter="10">
       <ElCol :span="12">
-        <ChartCard> </ChartCard>
+        <ChartCard> <LineEChart v-bind="showGoodsCategorySale" /></ChartCard>
       </ElCol>
       <ElCol :span="12">
-        <ChartCard> </ChartCard>
+        <ChartCard> <BarEChart v-bind="showGoodsCategoryFavor" /></ChartCard>
       </ElCol>
     </ElRow>
   </div>
@@ -39,16 +41,35 @@ import useAnalysisStore from '@/store/main/analysis/analysis'
 import CountCard from './c-cpns/countCard/CountCard.vue'
 import ChartCard from './c-cpns/chartCard/ChartCard.vue'
 import PieEChart from '@/components/pageECharts/src/PieEChart.vue'
+import RoseEChart from '@/components/pageECharts/src/RoseEChart.vue'
+import LineEChart from '@/components/pageECharts/src/LineEChart.vue'
+import BarEChart from '@/components/pageECharts/src/BarEChart.vue'
+
 //发送请求
 const analysisStore = useAnalysisStore()
 analysisStore.fetchAmountListAction()
 //获取数据
-const { amountList, goodsCategoryCount } = storeToRefs(analysisStore)
+const {
+  amountList,
+  goodsCategoryCount,
+  goodsCategorySale,
+  goodsCategoryFavor
+} = storeToRefs(analysisStore)
 const showGoodsCategoryCount = computed(() => {
   return goodsCategoryCount.value.map((item) => ({
     name: item.name,
     value: item.goodsCount
   }))
+})
+const showGoodsCategorySale = computed(() => {
+  const labels = goodsCategorySale.value.map((item) => item.name)
+  const values = goodsCategorySale.value.map((item) => item.goodsCount)
+  return { labels, values }
+})
+const showGoodsCategoryFavor = computed(() => {
+  const labels = goodsCategoryFavor.value.map((item) => item.name)
+  const values = goodsCategoryFavor.value.map((item) => item.goodsFavor)
+  return { labels, values }
 })
 </script>
 

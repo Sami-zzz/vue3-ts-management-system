@@ -9,6 +9,7 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BarEChart: typeof import('./src/components/pageECharts/src/BarEChart.vue')['default']
     BaseEChart: typeof import('./src/components/pageECharts/src/BaseEChart.vue')['default']
     Breadcrumb: typeof import('./src/components/mainHeader/c-cpns/Breadcrumb.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
@@ -47,12 +48,14 @@ declare module '@vue/runtime-core' {
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     ElTree: typeof import('element-plus/es')['ElTree']
     HeaderInfo: typeof import('./src/components/mainHeader/c-cpns/HeaderInfo.vue')['default']
+    LineEChart: typeof import('./src/components/pageECharts/src/LineEChart.vue')['default']
     MainHeader: typeof import('./src/components/mainHeader/MainHeader.vue')['default']
     MainMenu: typeof import('./src/components/mainMenu/MainMenu.vue')['default']
     PageContent: typeof import('./src/components/pageContent/PageContent.vue')['default']
     PageModal: typeof import('./src/components/pageModal/PageModal.vue')['default']
     PageSearch: typeof import('./src/components/pageSearch/PageSearch.vue')['default']
     PieEChart: typeof import('./src/components/pageECharts/src/PieEChart.vue')['default']
+    RoseEChart: typeof import('./src/components/pageECharts/src/RoseEChart.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
