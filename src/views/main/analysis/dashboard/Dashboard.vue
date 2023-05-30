@@ -11,13 +11,17 @@
     <!-- 中间图表 -->
     <ElRow :gutter="10">
       <ElCol :span="7">
-        <ChartCard><PieEChart :pie-data="showGoodsCategoryCount" /></ChartCard>
+        <ChartCard header="各类商品数量"
+          ><PieEChart :pie-data="showGoodsCategoryCount"
+        /></ChartCard>
       </ElCol>
       <ElCol :span="10">
-        <ChartCard> </ChartCard>
+        <ChartCard header="各地商品销量">
+          <MapEChart :map-data="showGoodsAddressSale"
+        /></ChartCard>
       </ElCol>
       <ElCol :span="7">
-        <ChartCard
+        <ChartCard header="各类商品数量"
           ><RoseEChart :rose-data="showGoodsCategoryCount"
         /></ChartCard>
       </ElCol>
@@ -25,10 +29,14 @@
     <!-- 底部图表 -->
     <ElRow :gutter="10">
       <ElCol :span="12">
-        <ChartCard> <LineEChart v-bind="showGoodsCategorySale" /></ChartCard>
+        <ChartCard header="各类商品销量">
+          <LineEChart v-bind="showGoodsCategorySale"
+        /></ChartCard>
       </ElCol>
       <ElCol :span="12">
-        <ChartCard> <BarEChart v-bind="showGoodsCategoryFavor" /></ChartCard>
+        <ChartCard header="各类商品收藏量">
+          <BarEChart v-bind="showGoodsCategoryFavor"
+        /></ChartCard>
       </ElCol>
     </ElRow>
   </div>
@@ -44,6 +52,7 @@ import PieEChart from '@/components/pageECharts/src/PieEChart.vue'
 import RoseEChart from '@/components/pageECharts/src/RoseEChart.vue'
 import LineEChart from '@/components/pageECharts/src/LineEChart.vue'
 import BarEChart from '@/components/pageECharts/src/BarEChart.vue'
+import MapEChart from '@/components/pageECharts/src/MapEChart.vue'
 
 //发送请求
 const analysisStore = useAnalysisStore()
@@ -53,7 +62,8 @@ const {
   amountList,
   goodsCategoryCount,
   goodsCategorySale,
-  goodsCategoryFavor
+  goodsCategoryFavor,
+  goodsAddressSale
 } = storeToRefs(analysisStore)
 const showGoodsCategoryCount = computed(() => {
   return goodsCategoryCount.value.map((item) => ({
@@ -70,6 +80,13 @@ const showGoodsCategoryFavor = computed(() => {
   const labels = goodsCategoryFavor.value.map((item) => item.name)
   const values = goodsCategoryFavor.value.map((item) => item.goodsFavor)
   return { labels, values }
+})
+
+const showGoodsAddressSale = computed(() => {
+  return goodsAddressSale.value.map((item) => ({
+    name: item.address,
+    value: item.count
+  }))
 })
 </script>
 

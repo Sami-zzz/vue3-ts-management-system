@@ -51,6 +51,7 @@ declare module '@vue/runtime-core' {
     LineEChart: typeof import('./src/components/pageECharts/src/LineEChart.vue')['default']
     MainHeader: typeof import('./src/components/mainHeader/MainHeader.vue')['default']
     MainMenu: typeof import('./src/components/mainMenu/MainMenu.vue')['default']
+    MapEChart: typeof import('./src/components/pageECharts/src/MapEChart.vue')['default']
     PageContent: typeof import('./src/components/pageContent/PageContent.vue')['default']
     PageModal: typeof import('./src/components/pageModal/PageModal.vue')['default']
     PageSearch: typeof import('./src/components/pageSearch/PageSearch.vue')['default']
