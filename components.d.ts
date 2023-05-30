@@ -9,12 +9,14 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    BaseEChart: typeof import('./src/components/pageECharts/src/BaseEChart.vue')['default']
     Breadcrumb: typeof import('./src/components/mainHeader/c-cpns/Breadcrumb.vue')['default']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCard: typeof import('element-plus/es')['ElCard']
     ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCol: typeof import('element-plus/es')['ElCol']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
@@ -50,6 +52,7 @@ declare module '@vue/runtime-core' {
     PageContent: typeof import('./src/components/pageContent/PageContent.vue')['default']
     PageModal: typeof import('./src/components/pageModal/PageModal.vue')['default']
     PageSearch: typeof import('./src/components/pageSearch/PageSearch.vue')['default']
+    PieEChart: typeof import('./src/components/pageECharts/src/PieEChart.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
