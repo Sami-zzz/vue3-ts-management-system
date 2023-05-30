@@ -1,48 +1,55 @@
 <template>
   <div class="dashboard">
     <!-- 顶部数据 -->
-    <el-row :gutter="10">
+    <ElRow :gutter="10">
       <template v-for="item in amountList" :key="item.amount">
-        <el-col :span="6">
+        <ElCol :span="6">
           <CountCard v-bind="item" />
-        </el-col>
+        </ElCol>
       </template>
-    </el-row>
+    </ElRow>
     <!-- 中间图表 -->
-    <el-row :gutter="10">
-      <el-col :span="7">
-        <chart-card><PieEChart /> </chart-card>
-      </el-col>
-      <el-col :span="10">
-        <chart-card> </chart-card>
-      </el-col>
-      <el-col :span="7">
-        <chart-card> </chart-card>
-      </el-col>
-    </el-row>
+    <ElRow :gutter="10">
+      <ElCol :span="7">
+        <ChartCard><PieEChart :pie-data="showGoodsCategoryCount" /></ChartCard>
+      </ElCol>
+      <ElCol :span="10">
+        <ChartCard> </ChartCard>
+      </ElCol>
+      <ElCol :span="7">
+        <ChartCard> </ChartCard>
+      </ElCol>
+    </ElRow>
     <!-- 底部图表 -->
-    <el-row :gutter="10">
-      <el-col :span="12">
-        <chart-card> </chart-card>
-      </el-col>
-      <el-col :span="12">
-        <chart-card> </chart-card>
-      </el-col>
-    </el-row>
+    <ElRow :gutter="10">
+      <ElCol :span="12">
+        <ChartCard> </ChartCard>
+      </ElCol>
+      <ElCol :span="12">
+        <ChartCard> </ChartCard>
+      </ElCol>
+    </ElRow>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import { storeToRefs } from 'pinia'
 import useAnalysisStore from '@/store/main/analysis/analysis'
 import CountCard from './c-cpns/countCard/CountCard.vue'
 import ChartCard from './c-cpns/chartCard/ChartCard.vue'
 import PieEChart from '@/components/pageECharts/src/PieEChart.vue'
-
+//发送请求
 const analysisStore = useAnalysisStore()
 analysisStore.fetchAmountListAction()
-
-const { amountList } = storeToRefs(analysisStore)
+//获取数据
+const { amountList, goodsCategoryCount } = storeToRefs(analysisStore)
+const showGoodsCategoryCount = computed(() => {
+  return goodsCategoryCount.value.map((item) => ({
+    name: item.name,
+    value: item.goodsCount
+  }))
+})
 </script>
 
 <style lang="less" scoped>

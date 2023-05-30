@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import * as echarts from 'echarts'
 import type { EChartsOption } from 'echarts'
 interface IProps {
@@ -18,7 +18,8 @@ const echartRef = ref<HTMLElement>()
 onMounted(() => {
   //初始化echarts实例
   const echartInstance = echarts.init(echartRef.value!)
-  echartInstance.setOption(props.option)
+  //监听option变化
+  watchEffect(() => echartInstance.setOption(props.option))
 })
 </script>
 
