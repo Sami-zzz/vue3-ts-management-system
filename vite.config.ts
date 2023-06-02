@@ -6,6 +6,10 @@ import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+//可视化打包
+import { visualizer } from 'rollup-plugin-visualizer'
+//gzip
+import viteCompression from 'vite-plugin-compression'
 
 import {
   createStyleImportPlugin,
@@ -35,11 +39,22 @@ export default defineConfig({
           }
         }
       ]
-    })
+    }),
+    visualizer(),
+    viteCompression()
   ],
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
+    }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          echarts: ['echarts']
+        }
+      }
     }
   }
 })
